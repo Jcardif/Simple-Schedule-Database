@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using Simple_Schedule_Database.Models;
 
@@ -18,9 +19,16 @@ namespace Simple_Schedule_Database.Controllers
         }
 
         // GET: api/Schedule/5
-        public string Get(int id)
+        public Schedule Get(int id)
         {
-            return "value";
+            SchedulePersistence sp=new SchedulePersistence();
+            Schedule schedule = sp.GetSchedule(id);
+            if (schedule == null)
+            {
+                throw new  HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+
+            return schedule;
         }
 
         // POST: api/Schedule

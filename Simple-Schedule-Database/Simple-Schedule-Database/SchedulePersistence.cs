@@ -63,7 +63,46 @@ namespace Simple_Schedule_Database
                         Locality = reader.GetString(3)
                     };
                     scheduleList.Add(schedule);
-                    return scheduleList;
+                }
+                return scheduleList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public Schedule GetSchedule(int id)
+        {
+            MySqlConnection conn=new MySqlConnection();
+            try
+            {
+                conn.Open();
+                conn.ConnectionString = connectionString;
+                Schedule schedule;
+                string sqlQuery = $"SELECT * FROM scheduletbl WHERE ID = {id} ";
+                MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
+                MySqlDataReader reader = null;
+                reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    schedule = new Schedule()
+                    {
+                        ID = reader.GetInt32(0),
+                        Date = reader.GetDateTime(1),
+                        Activity = reader.GetString(2),
+                        Locality = reader.GetString(3)
+                    };
+                    return schedule;
+                }
+                else
+                {
+                    return null;
                 }
             }
             catch (Exception ex)
