@@ -77,7 +77,7 @@ namespace Simple_Schedule_Database
             }
         }
 
-        public Schedule GetSchedule(int id)
+        public Schedule GetSchedule(string date)
         {
             MySqlConnection conn=new MySqlConnection();
             try
@@ -85,7 +85,7 @@ namespace Simple_Schedule_Database
                 conn.Open();
                 conn.ConnectionString = connectionString;
                 Schedule schedule;
-                string sqlQuery = $"SELECT * FROM scheduletbl WHERE ID = {id} ";
+                string sqlQuery = $"SELECT * FROM scheduletbl WHERE Date = {date} ";
                 MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
                 MySqlDataReader reader = null;
                 reader = cmd.ExecuteReader();
