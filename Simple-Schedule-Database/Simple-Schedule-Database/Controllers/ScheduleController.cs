@@ -11,9 +11,10 @@ namespace Simple_Schedule_Database.Controllers
     public class ScheduleController : ApiController
     {
         // GET: api/Schedule
-        public IEnumerable<string> Get()
+        public List<Schedule> Get()
         {
-            return new string[] { "value1", "value2" };
+            SchedulePersistence sp=new SchedulePersistence();
+            return sp.GetSchedules();
         }
 
         // GET: api/Schedule/5
