@@ -19,16 +19,14 @@ namespace Simple_Schedule_Database.Controllers
         }
 
         // GET: api/Schedule/5
-        public Schedule Get(string date)
+        public List<Schedule> Get(string date)
         {
             SchedulePersistence sp=new SchedulePersistence();
-            Schedule schedule = sp.GetSchedule(date);
-            if (schedule == null)
+            if (sp.GetSchedule(date) == null)
             {
                 throw new  HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
-
-            return schedule;
+            return sp.GetSchedule(date);
         }
 
         // POST: api/Schedule
