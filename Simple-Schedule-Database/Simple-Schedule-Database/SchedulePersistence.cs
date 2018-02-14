@@ -137,7 +137,7 @@ namespace Simple_Schedule_Database
                 {
                     reader.Close();
                     sqlString =
-                        $"UPDATE scheduletbl SET Date = {schedule.Date}, Activity = {schedule.Activity}, Locality = {schedule.Locality} WHERE ID = {Id}";
+                        $"UPDATE scheduletbl SET Date = {schedule.Date}, Activity = {schedule.Activity}, Locality = {schedule.Locality} WHERE ID = {id}";
                     cmd=new MySqlCommand(sqlString, conn);
                     cmd.ExecuteNonQuery();
                     return true;
@@ -155,6 +155,25 @@ namespace Simple_Schedule_Database
             finally
             {
                 conn.Close();
+            }
+        }
+
+        public bool DeleteSchedule(int id)
+        {
+            MySqlConnection conn=new MySqlConnection();
+            try
+            {
+                conn.Open();
+                conn.ConnectionString = connectionString;
+                MySqlDataReader reader = null;
+                string sqlQuery = $"SELECT * DROM scheduletbl WHERE ID = {id}";
+                MySqlCommand cmd=new MySqlCommand(sqlQuery, conn);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
             }
         }
     }
