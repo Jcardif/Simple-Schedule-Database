@@ -40,8 +40,22 @@ namespace Simple_Schedule_Database.Controllers
         }
 
         // PUT: api/Schedule/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(int id, [FromBody]Schedule schedule)
         {
+            SchedulePersistence sp=new SchedulePersistence();
+            bool isInSchedules = false;
+            HttpResponseMessage response;
+            isInSchedules = sp.UpdateSchedule(id, schedule);
+            if (isInSchedules)
+            {
+                response = Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            return response;
         }
 
         // DELETE: api/Schedule/5

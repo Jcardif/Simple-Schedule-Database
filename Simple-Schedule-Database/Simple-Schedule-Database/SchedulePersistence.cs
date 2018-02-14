@@ -121,5 +121,41 @@ namespace Simple_Schedule_Database
                 conn.Close();
             }
         }
+
+        public bool UpdateSchedule(int id, Schedule schedule)
+        {
+            MySqlConnection conn=new MySqlConnection();
+            try
+            {
+                conn.Open();
+                conn.ConnectionString = connectionString;
+                string sqlString = $"SELECT * FROM scheduletbl WHERE ID = {id}";
+                MySqlDataReader reader = null;
+                MySqlCommand cmd = new MySqlCommand(sqlString, conn);
+                reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    reader.Close();
+                    sqlString =
+                        $"UPDATE scheduletbl SET Date = {schedule.Date}, Activity = {schedule.Activity}, Locality = {schedule.Locality} WHERE ID = {Id}";
+                    cmd=new MySqlCommand(sqlString, conn);
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }
