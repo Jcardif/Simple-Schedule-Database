@@ -10,16 +10,15 @@ namespace Simple_Schedule_Database
 {
     public class SchedulePersistence
     {
-        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["scheduleDbConnectionString"].ConnectionString;
-
         public int CreateNewSchedule(Schedule schedule)
         {
             MySqlConnection conn;
-            conn=new MySqlConnection();
+            string connectionString = ConfigurationManager.ConnectionStrings["scheduleDbConnectionString"].ConnectionString;
+            conn = new MySqlConnection();
             try
             {
-                conn.Open();
                 conn.ConnectionString = connectionString;
+                conn.Open();
 
                 string sqlString =
                     $"INSERT INTO scheduletbl (Date, Activity, Locality) VALUES ({schedule.Date:D}, {schedule.Activity}, {schedule.Locality})";
@@ -42,13 +41,13 @@ namespace Simple_Schedule_Database
         public List<Schedule> GetSchedules()
         {
             MySqlConnection conn=new MySqlConnection();
+            string connectionString = ConfigurationManager.ConnectionStrings["scheduleDbConnectionString"].ConnectionString;
             try
             {
 
                 List<Schedule> scheduleList = new List<Schedule>();
-
-                conn.Open();
                 conn.ConnectionString = connectionString;
+                conn.Open();
                 string sqlQuery = "SELECT * FROM scheduletbl";
                 MySqlCommand cmd=new MySqlCommand(sqlQuery, conn);
                 MySqlDataReader reader = null;
@@ -80,10 +79,11 @@ namespace Simple_Schedule_Database
         public List<Schedule> GetSchedule(string date)
         {
             MySqlConnection conn=new MySqlConnection();
+            string connectionString = ConfigurationManager.ConnectionStrings["scheduleDbConnectionString"].ConnectionString;
             try
             {
-                conn.Open();
                 conn.ConnectionString = connectionString;
+                conn.Open();
                 List<Schedule> scheduleList=new List<Schedule>();
                 string sqlQuery = $"SELECT * FROM scheduletbl WHERE Date = {date} ";
                 MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
@@ -125,10 +125,11 @@ namespace Simple_Schedule_Database
         public bool UpdateSchedule(int id, Schedule schedule)
         {
             MySqlConnection conn=new MySqlConnection();
+            string connectionString = ConfigurationManager.ConnectionStrings["scheduleDbConnectionString"].ConnectionString;
             try
             {
-                conn.Open();
                 conn.ConnectionString = connectionString;
+                conn.Open();
                 string sqlString = $"SELECT * FROM scheduletbl WHERE ID = {id}";
                 MySqlDataReader reader = null;
                 MySqlCommand cmd = new MySqlCommand(sqlString, conn);
@@ -160,11 +161,13 @@ namespace Simple_Schedule_Database
 
         public bool DeleteSchedule(int id)
         {
-            MySqlConnection conn=new MySqlConnection();
+            MySqlConnection conn;
+            string connectionString = ConfigurationManager.ConnectionStrings["scheduleDbConnectionString"].ConnectionString;
+            conn=new MySqlConnection();
             try
             {
-                conn.Open();
                 conn.ConnectionString = connectionString;
+                conn.Open();
                 MySqlDataReader reader = null;
                 string sqlQuery = $"SELECT * FROM scheduletbl WHERE ID = {id}";
                 MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
