@@ -166,14 +166,30 @@ namespace Simple_Schedule_Database
                 conn.Open();
                 conn.ConnectionString = connectionString;
                 MySqlDataReader reader = null;
-                string sqlQuery = $"SELECT * DROM scheduletbl WHERE ID = {id}";
-                MySqlCommand cmd=new MySqlCommand(sqlQuery, conn);
-
+                string sqlQuery = $"SELECT * FROM scheduletbl WHERE ID = {id}";
+                MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
+                reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    reader.Close();
+                    sqlQuery = $"DELETE FROM scheduletbl WHERE ID = {id}";
+                    cmd = new MySqlCommand(sqlQuery, conn);
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 throw;
+            }
+            finally
+            {
+                conn.Close();
             }
         }
     }

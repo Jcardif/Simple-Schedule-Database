@@ -59,8 +59,22 @@ namespace Simple_Schedule_Database.Controllers
         }
 
         // DELETE: api/Schedule/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
+            SchedulePersistence sp=new SchedulePersistence();
+            bool isInSchedule = false;
+            HttpResponseMessage response;
+            isInSchedule = sp.DeleteSchedule(id);
+            if (isInSchedule)
+            {
+                response = Request.CreateResponse(HttpStatusCode.NoContent);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            return response;
         }
     }
 }
