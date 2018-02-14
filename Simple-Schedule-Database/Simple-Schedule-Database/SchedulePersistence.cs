@@ -21,7 +21,7 @@ namespace Simple_Schedule_Database
                 conn.Open();
 
                 string sqlString =
-                    $"INSERT INTO scheduletbl (Date, Activity, Locality) VALUES ({schedule.Date:D}, {schedule.Activity}, {schedule.Locality})";
+                    $"INSERT INTO scheduletbl (Date, Activity, Locality) VALUES ('{schedule.Date:D}', '{schedule.Activity}', '{schedule.Locality}')";
                 MySqlCommand cmd = new MySqlCommand(sqlString, conn);
                 cmd.ExecuteNonQuery();
                 int id = Convert.ToInt32(cmd.LastInsertedId);
