@@ -21,7 +21,7 @@ namespace Simple_Schedule_Database
                 conn.Open();
 
                 string sqlString =
-                    $"INSERT INTO scheduletbl (Date, Activity, Locality) VALUES ('{schedule.Date.ToString("D")}', '{schedule.Activity}', '{schedule.Locality}')";
+                    $"INSERT INTO scheduletbl (Date, Activity, Locality) VALUES ('{schedule.Date:d}', '{schedule.Activity}', '{schedule.Locality}')";
                 MySqlCommand cmd = new MySqlCommand(sqlString, conn);
                 cmd.ExecuteNonQuery();
                 int id = Convert.ToInt32(cmd.LastInsertedId);
@@ -118,6 +118,45 @@ namespace Simple_Schedule_Database
             }
         }
 
+        public List<Schedule> GetSchedules(string date)
+        {
+            MySqlConnection conn=new MySqlConnection();
+            string connectionString = ConfigurationManager.ConnectionStrings["scheduleDbConnectionString"].ConnectionString;
+            try
+            {
+                var scheduleList = new List<Schedule>();
+                conn.ConnectionString = connectionString;
+                conn.Open();
+                string sqlQuery = $"SELECT * FROM scheduletbl WHERE Date = '{Convert.ToDateTime(date):D}'";
+                MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
+                MySqlDataReader reader = null;
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Schedule schedule = new Schedule()
+                    {
+                        ID = reader.GetInt32(0),
+                        Date = Convert.ToDateTime(reader.GetInt32(1)),
+                        Activity = reader.GetString(2),
+                        Locality = reader.GetString(3)
+                    };
+                    scheduleList.Add(schedule);
+                }
+
+                return scheduleList;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
         public bool UpdateSchedule(int id, Schedule schedule)
         {
             MySqlConnection conn=new MySqlConnection();
@@ -134,7 +173,7 @@ namespace Simple_Schedule_Database
                 {
                     reader.Close();
                     sqlString =
-                        $"UPDATE scheduletbl SET Date = {schedule.Date}, Activity = {schedule.Activity}, Locality = {schedule.Locality} WHERE ID = {id}";
+                        $"UPDATE scheduletbl SET Date = '{schedule.Date:D}', Activity = '{schedule.Activity}', Locality = '{schedule.Locality}' WHERE ID = {id}";
                     cmd=new MySqlCommand(sqlString, conn);
                     cmd.ExecuteNonQuery();
                     return true;

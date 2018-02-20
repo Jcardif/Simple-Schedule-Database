@@ -18,8 +18,14 @@ namespace Simple_Schedule_Database.Controllers
             return sp.GetSchedules();
         }
 
+        //GET:api/schedule/date
+        public List<Schedule> Get(string date)
+        {
+            SchedulePersistence sp=new SchedulePersistence();
+            return sp.GetSchedules(date);
+        }
         // GET: api/Schedule/5
-        public Schedule Get(int id)
+       public Schedule Get(int id)
         {
             SchedulePersistence sp=new SchedulePersistence();
             if (sp.GetSchedule(id) == null)
@@ -28,7 +34,7 @@ namespace Simple_Schedule_Database.Controllers
             }
             return sp.GetSchedule(id);
         }
-
+        
         // POST: api/Schedule
         public HttpResponseMessage Post([FromBody]Schedule schedule)
         {
