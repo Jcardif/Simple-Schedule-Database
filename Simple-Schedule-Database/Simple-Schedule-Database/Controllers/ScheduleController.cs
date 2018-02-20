@@ -11,22 +11,22 @@ namespace Simple_Schedule_Database.Controllers
 {
     public class ScheduleController : ApiController
     {
-        // GET: api/Schedule
+        //GET: api/Schedule
         public List<Schedule> Get()
         {
-            SchedulePersistence sp=new SchedulePersistence();
+            SchedulePersistence sp = new SchedulePersistence();
             return sp.GetSchedules();
         }
 
         // GET: api/Schedule/5
-        public List<Schedule> Get(string date)
+        public Schedule Get(int id)
         {
             SchedulePersistence sp=new SchedulePersistence();
-            if (sp.GetSchedule(date) == null)
+            if (sp.GetSchedule(id) == null)
             {
                 throw new  HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
             }
-            return sp.GetSchedule(date);
+            return sp.GetSchedule(id);
         }
 
         // POST: api/Schedule

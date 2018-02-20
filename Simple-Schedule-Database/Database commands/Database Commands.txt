@@ -1,0 +1,10 @@
+create database schedule
+
+CREATE TABLE `scheduletbl` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Date` varchar(45) DEFAULT NULL,
+  `Activity` varchar(100) DEFAULT NULL,
+  `Locality` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`)
+);

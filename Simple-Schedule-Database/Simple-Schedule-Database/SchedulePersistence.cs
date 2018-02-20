@@ -76,40 +76,36 @@ namespace Simple_Schedule_Database
             }
         }
 
-        public List<Schedule> GetSchedule(string date)
+        public Schedule GetSchedule(int id)
         {
+            //string datePass = Convert.ToDateTime(date).ToString("D");
             MySqlConnection conn=new MySqlConnection();
             string connectionString = ConfigurationManager.ConnectionStrings["scheduleDbConnectionString"].ConnectionString;
             try
             {
                 conn.ConnectionString = connectionString;
                 conn.Open();
-                List<Schedule> scheduleList=new List<Schedule>();
-                string sqlQuery = $"SELECT * FROM scheduletbl WHERE Date = {date} ";
+                string sqlQuery = $"SELECT * FROM scheduletbl WHERE ID = {id} ";
                 MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
                 MySqlDataReader reader = null;
                 reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-
-                    while (reader.Read())
-                    {
                         Schedule schedule = new Schedule()
                         {
                             ID = reader.GetInt32(0),
-                            Date = reader.GetDateTime(1),
+                            Date = Convert.ToDateTime(reader.GetString(1)),
                             Activity = reader.GetString(2),
                             Locality = reader.GetString(3)
                         };
-                        scheduleList.Add(schedule);
-                    }
-
-                    return scheduleList;
+                        return schedule;
                 }
                 else
                 {
                     return null;
                 }
+                //return scheduleList;
+          
             }
             catch (Exception ex)
             {
