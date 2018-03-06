@@ -127,7 +127,7 @@ namespace Simple_Schedule_Database
                 var scheduleList = new List<Schedule>();
                 conn.ConnectionString = connectionString;
                 conn.Open();
-                string sqlQuery = $"SELECT * FROM scheduletbl WHERE Date = '{Convert.ToDateTime(date):D}'";
+                string sqlQuery = $"SELECT * FROM scheduletbl WHERE Date = '{Convert.ToDateTime(date):d}'";
                 MySqlCommand cmd = new MySqlCommand(sqlQuery, conn);
                 MySqlDataReader reader = null;
                 reader = cmd.ExecuteReader();
@@ -136,7 +136,7 @@ namespace Simple_Schedule_Database
                     Schedule schedule = new Schedule()
                     {
                         ID = reader.GetInt32(0),
-                        Date = Convert.ToDateTime(reader.GetInt32(1)),
+                        Date = Convert.ToDateTime(reader.GetString(1)),
                         Activity = reader.GetString(2),
                         Locality = reader.GetString(3)
                     };
