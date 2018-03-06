@@ -18,10 +18,14 @@ namespace Simple_Schedule_Database.Controllers
             return sp.GetSchedules();
         }
 
-        //GET:api/schedule/date
+        //GET:api/schedule?date=01%2F01%2F2018
         public List<Schedule> Get(string date)
         {
-            SchedulePersistence sp=new SchedulePersistence();
+            SchedulePersistence sp = new SchedulePersistence();
+            if (sp.GetSchedules(date) == null)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
             return sp.GetSchedules(date);
         }
         // GET: api/Schedule/5
